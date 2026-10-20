@@ -6,13 +6,9 @@ package constants;
  */
 public interface StoreInfo {
 
-    String STORE_NAME = "FPT Warehouse Management System";
-    String STORE_ADDRESS = "FPT University";
-
-    // Hằng số loại giao dịch
-    String TYPE_INBOUND = "INBOUND";
-    String TYPE_OUTBOUND = "OUTBOUND";
+    public final String STORE_NAME = "FPT Warehouse Management System";
+    public final String STORE_ADDRESS = "FPT University";
 
     // Các ngưỡng cảnh báo (cho thống kê)
-    int LOW_STOCK_THRESHOLD = 10;
+    public final int LOW_STOCK_THRESHOLD = 10;
 }

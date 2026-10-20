@@ -17,24 +17,91 @@ public class Batch {
     private LocalDate importDate;        // Ngày nhập kho
     
     // TODO: Constructors, Getters & Setters
+    public Batch() {    
+    }
 
-    // Các hàm nghiệp vụ của riêng lô hàng (Entry #003)
+    public Batch(String batchId, String barcode, int quantity, double importPrice, LocalDate manufacturingDate, LocalDate expiryDate, LocalDate importDate) {
+        this.batchId = batchId;
+        this.barcode = barcode;
+        this.quantity = quantity;
+        this.importPrice = importPrice;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.importDate = importDate;
+    }
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getImportPrice() {
+        return importPrice;
+    }
+
+    public void setImportPrice(double importPrice) {
+        this.importPrice = importPrice;
+    }
+
+    public LocalDate getManufacturingDate() {
+        return manufacturingDate;
+    }
+
+    public void setManufacturingDate(LocalDate manufacturingDate) {
+        this.manufacturingDate = manufacturingDate;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public LocalDate getImportDate() {
+        return importDate;
+    }
+
+    public void setImportDate(LocalDate importDate) {
+        this.importDate = importDate;
+    }
+    
+    // Các hàm nghiệp vụ của riêng lô hàng
     public boolean isValidQuantity(int amount) {
-        // TODO: Kiểm tra số lượng hợp lệ (amount > 0 và phù hợp với tồn hiện tại)
-        return false;
+        return amount > 0 && amount <= quantity;
     }
 
     public void reduceQuantity(int amount) {
-        // TODO: Giảm số lượng khi xuất kho một phần lô hàng (Entry #002)
+        if(isValidQuantity(amount)){
+            quantity = quantity - amount;
+        }
     }
 
     public boolean isEmptyBatch() {
-        // TODO: Kiểm tra xem quantity == 0 hay chưa để biết có dequeue khỏi hàng đợi không
-        return false;
+        return quantity == 0;
     }
 
-    public boolean isExpired() {
-        // TODO: Kiểm tra lô hàng đã hết hạn chưa (so với LocalDate.now())
-        return false;
+    public boolean isExpired(LocalDate today) {
+        return expiryDate != null && expiryDate.isBefore(today);
     }
 }

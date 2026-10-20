@@ -1,5 +1,8 @@
 package datastructure;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import model.Batch;
 
 /**
@@ -12,31 +15,122 @@ public class BatchQueue {
     private BatchNode rear;
     private int size;
 
-    // TODO: Constructor, Getters & Setters
+    public BatchQueue() {
+        this.front = null;
+        this.rear = null;
+        this.size = 0;
+    }
+
+    public BatchQueue(BatchNode front, BatchNode rear, int size) {
+        this.front = front;
+        this.rear = rear;
+        this.size = size;
+    }
+
+    public BatchNode getFront() {
+        return front;
+    }
+
+    public void setFront(BatchNode front) {
+        this.front = front;
+    }
+
+    public BatchNode getRear() {
+        return rear;
+    }
+
+    public void setRear(BatchNode rear) {
+        this.rear = rear;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     public void enqueue(Batch batch) {
-        // TODO: Thêm lô hàng mới vào cuối hàng đợi (rear)
+        // addTail
+        BatchNode newNode = new BatchNode(batch);
+        if (isEmpty()) {
+            front = newNode;
+            rear = newNode;
+        } else {
+            rear.setNext(newNode);
+            rear = newNode;
+        }
+        size++;
     }
 
     public Batch dequeue() {
-        // TODO: Xóa và trả về lô hàng ở đầu hàng đợi (front) khi số lượng lô đã về 0
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        BatchNode tmp = front;
+        if (front == rear) {
+            front = null;
+            rear = null;
+        } else {
+            front = front.getNext();
+        }
+        size--;
+        return tmp.getData();
     }
 
     public Batch peek() {
-        // TODO: Xem lô hàng đầu tiên (lô cũ nhất) mà không xóa khỏi hàng đợi
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        return front.getData();
     }
 
     public boolean isEmpty() {
-        return front == null;
+        return front == null && rear == null;
     }
 
     public int getTotalQuantityInQueue() {
-        // TODO: Duyệt từ front đến rear để cộng tổng quantity của tất cả các lô hiện có
-        return 0;
+        // count tong so quantity co trong Queue
+        int count = 0;
+        if (isEmpty()) {
+            return 0;
+        }
+        BatchNode tmp = front;
+        while (tmp != null) {
+            count += tmp.getData().getQuantity();
+            tmp = tmp.getNext();
+        }
+        return count;
     }
 
-    public void displayBatches() {
-        // TODO: In danh sách các lô hàng đang tồn trong Queue
+    public List<Batch> removeExpired(LocalDate today) {
+        // Tra ve danh sach cac lo hang bi loai bo 
+        List<Batch> removedList = new ArrayList<>();
+        if (isEmpty()) {
+            return null;
+        }
+        BatchNode prev = null;
+        BatchNode current = front;
+        while (current != null) {
+            BatchNode nextNode = current.getNext();
+            if (current.getData().isExpired(today)) {
+                removedList.add(current.getData());
+                if (prev == null) {
+                    front = nextNode;
+                } else {
+                    prev.setNext(nextNode);
+                }
+                if (current == rear) {
+                    rear = prev;
+                }
+                size--;
+                current = nextNode;
+            } else {
+                prev = current;
+                current = nextNode;
+            }
+        }
+        return removedList;
     }
 }

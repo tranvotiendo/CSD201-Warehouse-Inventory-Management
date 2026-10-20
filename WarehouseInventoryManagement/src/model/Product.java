@@ -13,18 +13,21 @@ public class Product {
     private String category;         // Danh mục
     private String unit;             // Đơn vị tính (Thùng, Hộp, Cái...)
     private double price;            // Giá bán niêm yết
-    private int totalQuantity;       // Tổng tồn kho (Tổng quantity của các Batch trong Queue)
     private BatchQueue batchQueue;   // Hàng đợi chứa các lô hàng của sản phẩm này
 
     // TODO: Constructors (nhớ khởi tạo this.batchQueue = new BatchQueue()), Getters & Setters
-
-    // Hàm tính tổng tồn kho từ các lô hàng (Entry #003)
-    public int calculateTotalQuantity() {
-        // TODO: Gọi hàm tính tổng số lượng các lô đang có trong batchQueue
-        return 0;
-    }
     
     public Product() {
+        this.batchQueue = new BatchQueue();
+    }
+
+    public Product(String barcode, String name, String category, String unit, double price) {
+        this.barcode = barcode;
+        this.name = name;
+        this.category = category;
+        this.unit = unit;
+        this.price = price;
+        this.batchQueue = new BatchQueue();
     }
 
     public String getBarcode() {
@@ -59,19 +62,25 @@ public class Product {
         this.unit = unit;
     }
 
-    public double getSellingPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setSellingPrice(double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public BatchQueue getBatchQueue() {
+        return batchQueue;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public void setBatchQueue(BatchQueue batchQueue) {
+        this.batchQueue = batchQueue;
     }
+
+    // Hàm tính tổng tồn kho từ các lô hàng
+    public int calculateTotalQuantity() {
+        return batchQueue.getTotalQuantityInQueue();
+    }
+
 }

@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public enum TransactionType {
     INBOUND, // Nhập kho

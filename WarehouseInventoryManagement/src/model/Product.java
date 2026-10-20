@@ -4,7 +4,7 @@ import datastructure.BatchQueue;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class Product {
 

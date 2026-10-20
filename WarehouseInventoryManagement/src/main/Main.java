@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class Main {
 

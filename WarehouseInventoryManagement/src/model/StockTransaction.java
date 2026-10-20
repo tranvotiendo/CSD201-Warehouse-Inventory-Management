@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class StockTransaction {
 

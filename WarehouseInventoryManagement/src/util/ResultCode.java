@@ -2,7 +2,7 @@ package util;
 
 /**
  *
- * @author Thien Hao
+ * @author Group4_SE2023
  */
 public enum ResultCode {
     OK, 

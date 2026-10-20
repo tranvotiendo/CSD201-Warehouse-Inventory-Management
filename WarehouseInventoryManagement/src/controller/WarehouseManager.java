@@ -6,7 +6,7 @@ import model.Batch;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class WarehouseManager {
 

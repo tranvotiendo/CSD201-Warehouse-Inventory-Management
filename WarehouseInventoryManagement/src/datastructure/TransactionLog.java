@@ -7,7 +7,7 @@ import model.TransactionType;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class TransactionLog {
 

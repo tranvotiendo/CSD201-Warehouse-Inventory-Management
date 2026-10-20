@@ -4,7 +4,7 @@ import model.StockTransaction;
 
 /**
  *
- * @author tranvotiendo
+ * @author Group4_SE2023
  */
 public class TransactionNode {
 

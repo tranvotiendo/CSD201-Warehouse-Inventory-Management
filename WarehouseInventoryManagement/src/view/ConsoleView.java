@@ -1,11 +1,14 @@
 package view;
 
+import constants.StoreInfo;
 import datastructure.BatchNode;
 import datastructure.BatchQueue;
+import java.time.LocalDate;
 import java.util.List;
 import model.Batch;
 import model.Product;
 import model.StockTransaction;
+import util.InputValidator;
 
 /**
  *
@@ -14,58 +17,84 @@ import model.StockTransaction;
 public class ConsoleView {
 
     // ==========================================
-    // 1. NHÓM HÀM HIỂN THỊ MENU
+    // 1. MENUS
     // ==========================================
     public int showMainMenuAndGetChoice() {
-        // TODO: In tiêu đề (lấy từ StoreInfo.STORE_NAME), in các mục chọn:
-        // 1. Quản lý sản phẩm (ProductManager)
-        // 2. Nhập / Xuất kho theo lô (WarehouseManager)
-        // 3. Thống kê & Báo cáo (StatisticsManager)
-        // 0. Thoát
-        // Gọi InputValidator để đọc và trả về lựa chọn
-        return 0;
+        System.out.println();
+        System.out.println("==========================================");
+        System.out.println("   " + StoreInfo.STORE_NAME);
+        System.out.println("==========================================");
+        System.out.println("1. Product Management");
+        System.out.println("2. Stock In / Stock Out (by batch)");
+        System.out.println("3. Statistics & Reports");
+        System.out.println("0. Exit");
+        System.out.println("------------------------------------------");
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 3);
     }
 
     public int showProductSubMenu() {
-        // TODO: Menu con: 1. Thêm SP, 2. Cập nhật SP, 3. Xóa SP, 4. Tìm kiếm SP, 5. Xem toàn bộ SP
-        return 0;
+        System.out.println("\n--- PRODUCT MANAGEMENT ---");
+        System.out.println("1. Add product");
+        System.out.println("2. Update product");
+        System.out.println("3. Delete product");
+        System.out.println("4. Search product");
+        System.out.println("5. View all products");
+        System.out.println("0. Back");
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 5);
     }
 
     public int showWarehouseSubMenu() {
-        // TODO: Menu con: 1. Nhập lô hàng mới (Receive Stock), 2. Xuất hàng FIFO (Issue Stock)
-        return 0;
+        System.out.println("\n--- STOCK IN / STOCK OUT ---");
+        System.out.println("1. Receive new batch (Receive Stock)");
+        System.out.println("2. Issue stock by FIFO (Issue Stock)");
+        System.out.println("0. Back");
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 2);
     }
 
     public int showStatisticsSubMenu() {
-        // TODO: Menu con: 1. Báo cáo tồn kho, 2. Kiểm tra lô hết hạn/sắp hết hàng, 3. Sắp xếp SP theo tồn kho, 4. Lịch sử giao dịch
-        return 0;
+        System.out.println("\n--- STATISTICS & REPORTS ---");
+        System.out.println("1. Inventory report");
+        System.out.println("2. Check expired batches / low stock");
+        System.out.println("3. Sort products by stock quantity");
+        System.out.println("4. Transaction history");
+        System.out.println("0. Back");
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 4);
     }
 
     // ==========================================
-    // 2. NHÓM HÀM NHẬP FORM DỮ LIỆU TỪ NGƯỜI DÙNG
+    // 2. INPUT FORMS
     // ==========================================
     public Product inputNewProductForm() {
-        // TODO: Dùng InputValidator yêu cầu nhập barcode, name, category, unit, price
-        // Khởi tạo và trả về đối tượng Product mới
-        return null;
+        System.out.println("\n--- ADD NEW PRODUCT ---");
+        String barcode = InputValidator.readNonEmptyString("Barcode: ");
+        String name = InputValidator.readNonEmptyString("Product name: ");
+        String category = InputValidator.readNonEmptyString("Category: ");
+        String unit = InputValidator.readNonEmptyString("Unit: ");
+        double price = InputValidator.readPositiveDouble("Price: ");
+        return new Product(barcode, name, category, unit, price);
     }
 
     public Batch inputNewBatchForm(String barcode) {
-        // TODO: Dùng InputValidator yêu cầu nhập batchId, quantity, importPrice, mfgDate, expDate
-        // Khởi tạo và trả về đối tượng InventoryBatch mới
-        return null;
+        System.out.println("\n--- RECEIVE NEW BATCH for product: " + barcode + " ---");
+        String batchId = InputValidator.readNonEmptyString("Batch ID: ");
+        int quantity = InputValidator.readPositiveInt("Quantity: ");
+        double importPrice = InputValidator.readPositiveDouble("Import price: ");
+        LocalDate mfgDate = InputValidator.readValidDate("Manufacturing date (yyyy-MM-dd): ");
+        LocalDate expDate = InputValidator.readValidDate("Expiry date (yyyy-MM-dd): ");
+        LocalDate importDate = LocalDate.now(); // current date, not asked from the user
+
+        return new Batch(batchId, barcode, quantity, importPrice, mfgDate, expDate, importDate);
     }
 
     public String inputBarcodePrompt(String actionName) {
-        // TODO: Hiển thị lời nhắc nhập mã barcode cần tìm/xóa/nhập/xuất
-        return null;
+        return InputValidator.readNonEmptyString("Enter barcode to " + actionName + ": ");
     }
 
     // ==========================================
-    // 3. NHÓM HÀM HIỂN THỊ BẢNG & THÔNG BÁO
+    // 3. TABLES & MESSAGES
     // ==========================================
     public void printBatchHeader() {
-        System.out.printf("%-10s | %8s | %-12s | %-12s%n", "BatchID", "Remaining", "MFG", "EXP");
+        System.out.printf("%-10s | %9s | %-12s | %-12s%n", "BatchID", "Remaining", "MFG", "EXP");
         System.out.println("---------------------------------------------------");
     }
 
@@ -86,7 +115,7 @@ public class ConsoleView {
     }
 
     public void printBatchRow(Batch batch) {
-        System.out.printf("%-10s | %8d | %-12s | %-12s%n",
+        System.out.printf("%-10s | %9d | %-12s | %-12s%n",
                 batch.getBatchId(),
                 batch.getQuantity(),
                 batch.getManufacturingDate(),
@@ -95,7 +124,7 @@ public class ConsoleView {
 
     public void printProducts(List<Product> products) {
         if (products.isEmpty()) {
-            System.out.println("No product.");
+            System.out.println("No products.");
             return;
         }
         printProductHeader();
@@ -145,10 +174,12 @@ public class ConsoleView {
     }
 
     public void showSuccessMessage(String message) {
-        // TODO: In thông báo thành công
+        System.out.println("[SUCCESS] " + message);
     }
 
     public void showErrorMessage(String error) {
-        // TODO: In thông báo lỗi (ví dụ: không đủ tồn kho, trùng barcode...)
+        System.out.println("[ERROR] " + error);
     }
+
+  
 }

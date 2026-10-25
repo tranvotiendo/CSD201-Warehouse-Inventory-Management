@@ -39,8 +39,10 @@ public class ConsoleView {
         System.out.println("3. Delete product");
         System.out.println("4. Search product");
         System.out.println("5. View all products");
+        System.out.println("6. Import inventory from CSV");
+        System.out.println("7. Export inventory to CSV");
         System.out.println("0. Back");
-        return InputValidator.readIntInRange("Enter your choice: ", 0, 5);
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 7);
     }
 
     public int showWarehouseSubMenu() {

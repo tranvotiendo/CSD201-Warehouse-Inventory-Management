@@ -13,7 +13,15 @@ import view.ConsoleView;
  */
 public class HandleStatistics {
 private ConsoleView view= new ConsoleView();
-private StatisticsManager statisticsManager = new StatisticsManager();
+private StatisticsManager statisticsManager;
+
+    public HandleStatistics() {
+        this(new StatisticsManager());
+    }
+
+    public HandleStatistics(StatisticsManager statisticsManager) {
+        this.statisticsManager = statisticsManager;
+    }
     // ==========================================
     // MENU 3: STATISTICS & REPORTS
     // ==========================================

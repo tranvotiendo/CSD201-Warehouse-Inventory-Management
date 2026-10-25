@@ -1,0 +1,5 @@
+barcode,name,category,unit,price,batch_id,quantity,import_price,manufacturing_date,expiry_date,import_date
+8938505974196,"Instant coffee, 3 in 1",Beverage,box,58000,CF-2026-001,40,39000,2026-01-10,2027-01-10,2026-10-01
+8938505974196,"Instant coffee, 3 in 1",Beverage,box,58000,CF-2026-002,25,39500,2026-03-15,2027-03-15,2026-10-15
+8938501234567,Green tea,Drink,box,45000,,,,,,
+8938507654321,Paper towels,Household,pack,32000,PT-2026-001,60,22000,2026-05-01,2028-05-01,2026-10-20

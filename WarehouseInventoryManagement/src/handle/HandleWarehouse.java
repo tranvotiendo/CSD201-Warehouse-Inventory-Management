@@ -16,8 +16,17 @@ import view.ConsoleView;
  */
 public class HandleWarehouse {
     private ConsoleView view = new ConsoleView();
-    private ProductManager productManager = new ProductManager();
-    private WarehouseManager warehouseManager = new WarehouseManager();
+    private ProductManager productManager;
+    private WarehouseManager warehouseManager;
+
+    public HandleWarehouse() {
+        this(new ProductManager(), new WarehouseManager());
+    }
+
+    public HandleWarehouse(ProductManager productManager, WarehouseManager warehouseManager) {
+        this.productManager = productManager;
+        this.warehouseManager = warehouseManager;
+    }
     // ==========================================
     // MENU 2: STOCK IN / STOCK OUT
     // ==========================================
@@ -39,6 +48,7 @@ public class HandleWarehouse {
                             view.showErrorMessage("Stock receipt failed (duplicate batch ID?).");
                         }
                     }
+                    break;
                 }
                 case 2: { // Issue stock (FIFO)
                     String barcode = view.inputBarcodePrompt("issue stock");
@@ -49,9 +59,11 @@ public class HandleWarehouse {
                     } else {
                         view.showErrorMessage("Insufficient stock or product not found.");
                     }
+                    break;
                 }
                 case 0:
                     back = true;
+                    break;
             }
         }
     }

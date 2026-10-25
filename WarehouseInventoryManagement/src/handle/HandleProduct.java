@@ -7,8 +7,11 @@ package handle;
 import java.util.ArrayList;
 import java.util.List;
 import controller.ProductManager;
+import java.io.IOException;
+import java.nio.file.Paths;
 import model.Product;
 import util.InputValidator;
+import util.InventoryFileManager;
 import view.ConsoleView;
 
 /**
@@ -17,7 +20,15 @@ import view.ConsoleView;
  */
 public class HandleProduct {
     private ConsoleView view = new ConsoleView();
-    private ProductManager productManager = new ProductManager();
+    private ProductManager productManager;
+
+    public HandleProduct() {
+        this(new ProductManager());
+    }
+
+    public HandleProduct(ProductManager productManager) {
+        this.productManager = productManager;
+    }
      // ==========================================
     // MENU 1: PRODUCT MANAGEMENT
     // ==========================================
@@ -33,6 +44,7 @@ public class HandleProduct {
                     } else {
                         view.showErrorMessage("Barcode already exists!");
                     }
+                    break;
                 }
                 case 2: { // Update
                     String barcode = view.inputBarcodePrompt("update");
@@ -54,6 +66,7 @@ public class HandleProduct {
                             view.showErrorMessage("Update failed.");
                         }
                     }
+                    break;
                 }
                 case 3: { // Delete
                     String barcode = view.inputBarcodePrompt("delete");
@@ -62,6 +75,7 @@ public class HandleProduct {
                     } else {
                         view.showErrorMessage("Product not found.");
                     }
+                    break;
                 }
                 case 4: { // Search
                     String barcode = view.inputBarcodePrompt("search");
@@ -75,11 +89,35 @@ public class HandleProduct {
                         view.printProducts(listProduct);
                         view.printBatches(product.getBatchQueue());
                     }
+                    break;
                 }
                 case 5:
                     view.printProducts(productManager.getAllProducts()); // View all
+                    break;
+                case 6: {
+                    String filePath = InputValidator.readNonEmptyString("CSV file path to import: ");
+                    try {
+                        int imported = InventoryFileManager.importInventory(Paths.get(filePath), productManager);
+                        view.showSuccessMessage("Imported " + imported + " product(s) with current batches.");
+                    } catch (IOException | IllegalArgumentException ex) {
+                        view.showErrorMessage("Import failed: " + ex.getMessage());
+                    }
+                    break;
+                }
+                case 7: {
+                    String filePath = InputValidator.readNonEmptyString("CSV file path to export: ");
+                    try {
+                        int exported = InventoryFileManager.exportInventory(
+                                Paths.get(filePath), productManager.getAllProducts());
+                        view.showSuccessMessage("Exported " + exported + " product(s) with current batches.");
+                    } catch (IOException | IllegalArgumentException ex) {
+                        view.showErrorMessage("Export failed: " + ex.getMessage());
+                    }
+                    break;
+                }
                 case 0:
                     back = true;
+                    break;
             }
         }
     }

@@ -4,8 +4,8 @@
  */
 package handle;
 
-import management.ProductManager;
-import management.WarehouseManager;
+import controller.ProductManager;
+import controller.WarehouseManager;
 import model.Batch;
 import util.InputValidator;
 import view.ConsoleView;

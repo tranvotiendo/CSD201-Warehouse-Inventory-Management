@@ -4,7 +4,7 @@
  */
 package handle;
 
-import management.StatisticsManager;
+import controller.StatisticsManager;
 import view.ConsoleView;
 
 /**

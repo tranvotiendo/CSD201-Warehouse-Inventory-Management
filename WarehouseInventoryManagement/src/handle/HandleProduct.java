@@ -6,7 +6,7 @@ package handle;
 
 import java.util.ArrayList;
 import java.util.List;
-import management.ProductManager;
+import controller.ProductManager;
 import model.Product;
 import util.InputValidator;
 import view.ConsoleView;

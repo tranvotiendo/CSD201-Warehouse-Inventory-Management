@@ -15,9 +15,8 @@ import model.TransactionType;
 import view.ConsoleView;
 
 /**
- * Controller managing inventory statistics, warnings, sorted views, and
- * transaction reports.
- *
+ * Controller managing inventory statistics, warnings, sorted views, and transaction reports.
+ * 
  * @author Group4_SE2023
  */
 public class StatisticsManager {
@@ -36,7 +35,7 @@ public class StatisticsManager {
     /**
      * Constructor injecting shared productTree and transactionLog instances.
      *
-     * @param productTree The shared product tree
+     * @param productTree    The shared product tree
      * @param transactionLog The shared transaction log
      */
     public StatisticsManager(ProductBST productTree, TransactionLog transactionLog) {
@@ -61,9 +60,8 @@ public class StatisticsManager {
     }
 
     /**
-     * Generates and displays a comprehensive inventory summary report. Reads
-     * directly from productTree to aggregate quantities, values, and batch
-     * counts.
+     * Generates and displays a comprehensive inventory summary report.
+     * Reads directly from productTree to aggregate quantities, values, and batch counts.
      */
     public void generateInventorySummary() {
         List<Product> products = productTree.inOrderList();
@@ -122,9 +120,8 @@ public class StatisticsManager {
     }
 
     /**
-     * Checks and alerts for products with low stock levels (<=
-     * StoreInfo.LOW_STOCK_THRESHOLD) and batches that are expired or expiring
-     * within 30 days.
+     * Checks and alerts for products with low stock levels (<= StoreInfo.LOW_STOCK_THRESHOLD)
+     * and batches that are expired or expiring within 30 days.
      */
     public void checkExpiredOrLowStockBatches() {
         LocalDate today = LocalDate.now();
@@ -217,8 +214,8 @@ public class StatisticsManager {
     }
 
     /**
-     * Extracts all products from productTree and displays them sorted by total
-     * quantity. Uses QuickSort algorithm on the extracted list.
+     * Extracts all products from productTree and displays them sorted by total quantity.
+     * Uses QuickSort algorithm on the extracted list.
      */
     public void displaySortedProductsByQuantity() {
         List<Product> products = new ArrayList<>(productTree.inOrderList());
@@ -255,8 +252,7 @@ public class StatisticsManager {
     /**
      * Returns products sorted by quantity.
      *
-     * @param descending true for highest to lowest stock, false for lowest to
-     * highest
+     * @param descending true for highest to lowest stock, false for lowest to highest
      * @return Sorted list of products
      */
     public List<Product> getSortedProductsByQuantity(boolean descending) {
@@ -312,9 +308,8 @@ public class StatisticsManager {
     }
 
     /**
-     * Generates a transaction report for a specific product or all products if
-     * barcode is blank. Calculates total INBOUND, OUTBOUND, and EXPIRED
-     * quantities, and prints transaction history.
+     * Generates a transaction report for a specific product or all products if barcode is blank.
+     * Calculates total INBOUND, OUTBOUND, and EXPIRED quantities, and prints transaction history.
      *
      * @param barcode The product barcode (or null/empty for all transactions)
      */

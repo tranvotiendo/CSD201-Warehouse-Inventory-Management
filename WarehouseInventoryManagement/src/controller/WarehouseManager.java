@@ -1,5 +1,6 @@
 package controller;
 
+import datastructure.BatchNode;
 import datastructure.BatchQueue;
 import datastructure.ProductBST;
 import datastructure.TransactionLog;
@@ -14,8 +15,9 @@ import model.StockTransaction;
 import model.TransactionType;
 
 /**
- * Controller managing warehouse operations: receiving stock and FIFO stock issue.
- * 
+ * Controller managing warehouse operations: receiving stock and FIFO stock
+ * issue.
+ *
  * @author Group4_SE2023
  */
 public class WarehouseManager {
@@ -35,7 +37,7 @@ public class WarehouseManager {
     /**
      * Constructor injecting shared ProductBST and TransactionLog instances.
      *
-     * @param productTree    The shared product tree
+     * @param productTree The shared product tree
      * @param transactionLog The shared transaction log
      */
     public WarehouseManager(ProductBST productTree, TransactionLog transactionLog) {
@@ -73,10 +75,11 @@ public class WarehouseManager {
     /**
      * Receives a new stock batch for a product and logs an INBOUND transaction.
      *
-     * @param barcode  The barcode of the product receiving stock
+     * @param barcode The barcode of the product receiving stock
      * @param newBatch The new batch object containing batch details
-     * @param note     Optional note/comment for the transaction
-     * @return true if received successfully, false if product not found or batch invalid
+     * @param note Optional note/comment for the transaction
+     * @return true if received successfully, false if product not found or
+     * batch invalid
      */
     public boolean receiveStock(String barcode, Batch newBatch, String note) {
         if (barcode == null || barcode.trim().isEmpty() || newBatch == null) {
@@ -101,6 +104,14 @@ public class WarehouseManager {
         if (newBatch.getBatchId() == null || newBatch.getBatchId().trim().isEmpty()) {
             newBatch.setBatchId("BATCH-" + System.currentTimeMillis() % 1000000);
         }
+        newBatch.setBatchId(newBatch.getBatchId().trim());
+        if (checkDuplicateBatchId(product, newBatch.getBatchId())) {
+            return false;
+        }
+        if (newBatch.getManufacturingDate() != null && newBatch.getExpiryDate() != null
+                && newBatch.getExpiryDate().isBefore(newBatch.getManufacturingDate())) {
+            return false;
+        }
 
         // 1. Enqueue batch to product's BatchQueue
         product.getBatchQueue().enqueue(newBatch);
@@ -122,14 +133,16 @@ public class WarehouseManager {
     }
 
     /**
-     * Issues stock using FIFO (First-In, First-Out) strategy across product batches.
-     * Depletes older batches first, only dequeuing a batch when its quantity reaches 0.
-     * Records OUTBOUND transactions for each impacted batch.
+     * Issues stock using FIFO (First-In, First-Out) strategy across product
+     * batches. Depletes older batches first, only dequeuing a batch when its
+     * quantity reaches 0. Records OUTBOUND transactions for each impacted
+     * batch.
      *
-     * @param barcode           The barcode of the product to issue
+     * @param barcode The barcode of the product to issue
      * @param requestedQuantity The total quantity requested to issue
-     * @param note              Optional note/comment for the transaction
-     * @return true if stock was issued successfully, false if not found or insufficient stock
+     * @param note Optional note/comment for the transaction
+     * @return true if stock was issued successfully, false if not found or
+     * insufficient stock
      */
     public boolean issueStock(String barcode, int requestedQuantity, String note) {
         if (barcode == null || barcode.trim().isEmpty() || requestedQuantity <= 0) {
@@ -194,9 +207,23 @@ public class WarehouseManager {
     }
 
     /**
+     * Checks whether a batch ID already exists in the product's queue.
+     */
+    private boolean checkDuplicateBatchId(Product product, String batchId) {
+        BatchNode current = product.getBatchQueue().getFront();
+        while (current != null) {
+            if (current.getData().getBatchId().equalsIgnoreCase(batchId)) {
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+    }
+
+    /**
      * Removes expired batches for a product and logs EXPIRED transactions.
      *
-     * @param barcode   The product barcode
+     * @param barcode The product barcode
      * @param checkDate The reference date (usually LocalDate.now())
      * @return List of batches that were removed due to expiration
      */

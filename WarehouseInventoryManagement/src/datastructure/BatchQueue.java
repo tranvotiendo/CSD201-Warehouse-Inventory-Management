@@ -108,7 +108,7 @@ public class BatchQueue {
         // Tra ve danh sach cac lo hang bi loai bo 
         List<Batch> removedList = new ArrayList<>();
         if (isEmpty()) {
-            return null;
+            return removedList;
         }
         BatchNode prev = null;
         BatchNode current = front;

@@ -82,10 +82,10 @@ public class ProductBST {
         if(barcode==null || barcode.isEmpty()){
             return false;
         }
-        if(search(barcode)==null){
+        if(search(barcode.trim())==null){
             return false;
         }
-        root = deleteSupport(root, barcode);
+        root = deleteSupport(root, barcode.trim());
         return true;
     }
 

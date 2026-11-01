@@ -69,9 +69,6 @@ public class TransactionLog {
 
     public List<StockTransaction> getAllTransactions() {
         List<StockTransaction> result = new ArrayList<>();
-        if (isEmpty()) {
-            return null;
-        }
         TransactionNode tmp = head;
         while (tmp != null) {
             result.add(tmp.getData());
@@ -82,8 +79,8 @@ public class TransactionLog {
 
     public List<StockTransaction> getTransactionsByProduct(String barcode) {
         List<StockTransaction> result = new ArrayList<>();
-        if (isEmpty()) {
-            return null;
+        if (barcode == null) {
+            return result;
         }
         TransactionNode tmp = head;
         while (tmp != null) {
@@ -96,16 +93,16 @@ public class TransactionLog {
     }
 
     public int calculateTotalByType(String barcode, TransactionType type) {
-        if(isEmpty()){
+        if (isEmpty()) {
             return 0;
         }
-        if(barcode==null || barcode.isEmpty()){
+        if (barcode == null || barcode.isEmpty()) {
             return 0;
         }
         int count = 0;
         TransactionNode tmp = head;
-        while(tmp!=null){
-            if(tmp.getData().getBarcode().equalsIgnoreCase(barcode) && tmp.getData().getType() == type){
+        while (tmp != null) {
+            if (tmp.getData().getBarcode().equalsIgnoreCase(barcode) && tmp.getData().getType() == type) {
                 count += tmp.getData().getQuantity();
             }
             tmp = tmp.getNext();

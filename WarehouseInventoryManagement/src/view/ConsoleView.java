@@ -32,6 +32,15 @@ public class ConsoleView {
         return InputValidator.readIntInRange("Enter your choice: ", 0, 3);
     }
 
+    public int showWarehouseSubMenu() {
+        System.out.println("\n--- STOCK IN / STOCK OUT ---");
+        System.out.println("1. Receive new batch (Receive Stock)");
+        System.out.println("2. Issue stock by FIFO (Issue Stock)");
+        System.out.println("3. Remove expired batches");
+        System.out.println("0. Back");
+        return InputValidator.readIntInRange("Enter your choice: ", 0, 3);
+    }
+
     public int showProductSubMenu() {
         System.out.println("\n--- PRODUCT MANAGEMENT ---");
         System.out.println("1. Add product");
@@ -43,14 +52,6 @@ public class ConsoleView {
         System.out.println("7. Export inventory to CSV");
         System.out.println("0. Back");
         return InputValidator.readIntInRange("Enter your choice: ", 0, 7);
-    }
-
-    public int showWarehouseSubMenu() {
-        System.out.println("\n--- STOCK IN / STOCK OUT ---");
-        System.out.println("1. Receive new batch (Receive Stock)");
-        System.out.println("2. Issue stock by FIFO (Issue Stock)");
-        System.out.println("0. Back");
-        return InputValidator.readIntInRange("Enter your choice: ", 0, 2);
     }
 
     public int showStatisticsSubMenu() {
@@ -82,7 +83,7 @@ public class ConsoleView {
         int quantity = InputValidator.readPositiveInt("Quantity: ");
         double importPrice = InputValidator.readPositiveDouble("Import price: ");
         LocalDate mfgDate = InputValidator.readValidDate("Manufacturing date (yyyy-MM-dd): ");
-        LocalDate expDate = InputValidator.readValidDate("Expiry date (yyyy-MM-dd): ");
+        LocalDate expDate = InputValidator.readExpiryDate("Expiry date (yyyy-MM-dd): ", mfgDate);
         LocalDate importDate = LocalDate.now(); // current date, not asked from the user
 
         return new Batch(batchId, barcode, quantity, importPrice, mfgDate, expDate, importDate);
@@ -183,5 +184,4 @@ public class ConsoleView {
         System.out.println("[ERROR] " + error);
     }
 
-  
 }

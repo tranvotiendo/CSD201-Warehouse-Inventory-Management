@@ -85,7 +85,7 @@ public class StatisticsManager {
 
         int totalSku = 0;
         long totalStockQuantity = 0;
-        double totalInventoryValue = 0.0;
+        double totalInventoryValue = 0;
         int totalBatches = 0;
 
         for (Product product : products) {
@@ -215,21 +215,20 @@ public class StatisticsManager {
 
     /**
      * Extracts all products from productTree and displays them sorted by total quantity.
-     * Uses QuickSort algorithm on the extracted list.
+     * Uses Bubble Sort algorithm on the extracted list.
      */
     public void displaySortedProductsByQuantity() {
-        List<Product> products = new ArrayList<>(productTree.inOrderList());
+        List<Product> products = getSortedProductsByQuantity(true);
 
         if (products.isEmpty()) {
             System.out.println(">> Notice: No products to sort.");
             return;
         }
 
-        // QuickSort in descending order by total quantity
-        quickSort(products, 0, products.size() - 1);
+        
 
         System.out.println("\n======================================================================================");
-        System.out.println("                 PRODUCTS SORTED BY QUANTITY DESCENDING (QUICKSORT)");
+        System.out.println("                 PRODUCTS SORTED BY QUANTITY DESCENDING (BUBBLE SORT)");
         System.out.println("======================================================================================");
         System.out.printf("%-5s | %-14s | %-20s | %-12s | %-8s | %10s | %9s%n",
                 "Rank", "Barcode", "Product Name", "Category", "Unit", "Price", "Total Qty");
@@ -257,54 +256,29 @@ public class StatisticsManager {
      */
     public List<Product> getSortedProductsByQuantity(boolean descending) {
         List<Product> list = new ArrayList<>(productTree.inOrderList());
-        if (list.size() > 1) {
-            quickSort(list, 0, list.size() - 1);
-            if (!descending) {
-                // Reverse to ascending
-                int left = 0;
-                int right = list.size() - 1;
-                while (left < right) {
-                    Product temp = list.get(left);
-                    list.set(left, list.get(right));
-                    list.set(right, temp);
-                    left++;
-                    right--;
-                }
-            }
-        }
+        bubbleSort(list, descending);
         return list;
     }
 
-    /**
-     * QuickSort implementation sorting products descending by total quantity.
-     */
-    private void quickSort(List<Product> list, int low, int high) {
-        if (low < high) {
-            int pi = partition(list, low, high);
-            quickSort(list, low, pi - 1);
-            quickSort(list, pi + 1, high);
-        }
-    }
-
-    private int partition(List<Product> list, int low, int high) {
-        int pivot = list.get(high).calculateTotalQuantity();
-        int i = low - 1;
-
-        for (int j = low; j < high; j++) {
-            // Descending order: items with higher or equal quantity placed first
-            if (list.get(j).calculateTotalQuantity() >= pivot) {
-                i++;
-                Product temp = list.get(i);
-                list.set(i, list.get(j));
-                list.set(j, temp);
+    private void bubbleSort(List<Product> list, boolean descending){
+        int n = list.size();
+        for (int i = 0; i < n -1; i++){
+            for (int j = 0; j < n -1 - i ; j++){
+                if(descending){
+                    if(list.get(j).calculateTotalQuantity() < list.get(j+1).calculateTotalQuantity()){
+                        Product tmp = list.get(j);
+                        list.set(j, list.get(j+1));
+                        list.set(j+1, tmp);
+                    }
+                }else{
+                    if(list.get(j).calculateTotalQuantity() > list.get(j+1).calculateTotalQuantity()){
+                        Product tmp = list.get(j);
+                        list.set(j, list.get(j+1));
+                        list.set(j+1, tmp);
+                    }
+                }
             }
         }
-
-        Product temp = list.get(i + 1);
-        list.set(i + 1, list.get(high));
-        list.set(high, temp);
-
-        return i + 1;
     }
 
     /**
@@ -372,6 +346,9 @@ public class StatisticsManager {
         if (text == null) {
             return "";
         }
-        return (text.length() <= maxLength) ? text : text.substring(0, maxLength - 3) + "...";
+        if(text.length() <= maxLength){
+            return text;
+        }
+        return text.substring(0, maxLength - 3) + "...";
     }
 }

@@ -6,6 +6,8 @@ package handle;
 
 import controller.ProductManager;
 import controller.WarehouseManager;
+import java.time.LocalDate;
+import java.util.List;
 import model.Batch;
 import util.InputValidator;
 import view.ConsoleView;
@@ -15,6 +17,7 @@ import view.ConsoleView;
  * @author Group4_SE2023
  */
 public class HandleWarehouse {
+
     private ConsoleView view = new ConsoleView();
     private ProductManager productManager;
     private WarehouseManager warehouseManager;
@@ -27,6 +30,7 @@ public class HandleWarehouse {
         this.productManager = productManager;
         this.warehouseManager = warehouseManager;
     }
+
     // ==========================================
     // MENU 2: STOCK IN / STOCK OUT
     // ==========================================
@@ -45,7 +49,7 @@ public class HandleWarehouse {
                         if (warehouseManager.receiveStock(barcode, batch, note)) {
                             view.showSuccessMessage("Batch received.");
                         } else {
-                            view.showErrorMessage("Stock receipt failed (duplicate batch ID?).");
+                            view.showErrorMessage("Stock receipt failed (duplicate batch ID or invalid batch data).");
                         }
                     }
                     break;
@@ -61,11 +65,31 @@ public class HandleWarehouse {
                     }
                     break;
                 }
+                case 3: { // Remove expired batches
+                    String barcode = view.inputBarcodePrompt("remove expired batches");
+                    if (productManager.findProductByBarcode(barcode) == null) {
+                        view.showErrorMessage("Product not found.");
+                        break;
+                    }
+                    List<Batch> removed = warehouseManager.processExpiredBatches(barcode, LocalDate.now());
+                    if (removed.isEmpty()) {
+                        view.showSuccessMessage("No expired batches found for this product.");
+                    } else {
+                        System.out.println("Removed expired batches:");
+                        view.printBatchHeader();
+                        for (Batch b : removed) {
+                            view.printBatchRow(b);
+                        }
+                        view.showSuccessMessage("Removed " + removed.size()
+                                + " expired batch(es). EXPIRED transactions recorded.");
+                    }
+                    break;
+                }
                 case 0:
                     back = true;
                     break;
             }
         }
     }
-    
+
 }

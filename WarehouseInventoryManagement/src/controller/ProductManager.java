@@ -164,7 +164,6 @@ public class ProductManager {
             System.out.println(">> Notice: Currently there are no products in the system.");
             return;
         }
-
         ConsoleView view = new ConsoleView();
         view.printProducts(products);
     }

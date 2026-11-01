@@ -31,11 +31,6 @@ public final class InventoryFileManager {
     private InventoryFileManager() {
     }
 
-    /**
-     * Imports products and their current batches. No products are added if any row is invalid.
-     *
-     * @return number of products imported
-     */
     public static int importInventory(Path path, ProductManager productManager) throws IOException {
         if (path == null || productManager == null) {
             throw new IllegalArgumentException("File path and product manager are required.");

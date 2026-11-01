@@ -8,15 +8,14 @@ import java.time.LocalDate;
  */
 public class Batch {
 
-    private String batchId;          // Mã lô hàng
-    private String barcode;          // Mã vạch sản phẩm thuộc lô này
-    private int quantity;            // Số lượng tồn hiện tại trong lô
-    private double importPrice;      // Giá nhập của lô này
-    private LocalDate manufacturingDate; // Ngày sản xuất
-    private LocalDate expiryDate;        // Hạn sử dụng
-    private LocalDate importDate;        // Ngày nhập kho
+    private String batchId;         
+    private String barcode;          
+    private int quantity;            
+    private double importPrice;     
+    private LocalDate manufacturingDate; 
+    private LocalDate expiryDate;       
+    private LocalDate importDate;        
     
-    // TODO: Constructors, Getters & Setters
     public Batch() {    
     }
 

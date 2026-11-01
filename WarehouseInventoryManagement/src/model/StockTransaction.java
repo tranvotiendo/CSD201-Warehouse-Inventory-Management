@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
  */
 public class StockTransaction {
 
-    private String transactionId;    // Mã giao dịch
+    private String transactionId;   
     private TransactionType type;    
-    private String barcode;          // Mã sản phẩm
-    private String batchId;          // Mã lô hàng bị tác động
-    private int quantity;            // Số lượng thay đổi
-    private LocalDateTime timestamp; // Thời gian giao dịch
-    private String note;             // Ghi chú thêm
+    private String barcode;          
+    private String batchId;         
+    private int quantity;            
+    private LocalDateTime timestamp; 
+    private String note;             
 
     public StockTransaction() {
     }

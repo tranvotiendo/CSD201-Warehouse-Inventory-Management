@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package handle;
 
 import controller.StatisticsManager;
@@ -12,16 +8,17 @@ import view.ConsoleView;
  * @author mac
  */
 public class HandleStatistics {
-private ConsoleView view= new ConsoleView();
-private StatisticsManager statisticsManager;
+
+    private ConsoleView view = new ConsoleView();
+    private StatisticsManager statisticsManager = new StatisticsManager();
 
     public HandleStatistics() {
-        this(new StatisticsManager());
     }
 
     public HandleStatistics(StatisticsManager statisticsManager) {
         this.statisticsManager = statisticsManager;
     }
+
     // ==========================================
     // MENU 3: STATISTICS & REPORTS
     // ==========================================

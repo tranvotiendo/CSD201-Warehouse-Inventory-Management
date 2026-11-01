@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package handle;
 
 import controller.ProductManager;
@@ -19,11 +15,10 @@ import view.ConsoleView;
 public class HandleWarehouse {
 
     private ConsoleView view = new ConsoleView();
-    private ProductManager productManager;
-    private WarehouseManager warehouseManager;
+    private ProductManager productManager = new ProductManager();
+    private WarehouseManager warehouseManager = new WarehouseManager();
 
     public HandleWarehouse() {
-        this(new ProductManager(), new WarehouseManager());
     }
 
     public HandleWarehouse(ProductManager productManager, WarehouseManager warehouseManager) {

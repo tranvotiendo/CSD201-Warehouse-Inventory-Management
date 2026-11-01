@@ -2,20 +2,19 @@ package util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
  * Utility class for console input validation.
- * 
+ *
  * @author Group4_SE2023
  */
 public class InputValidator {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private static final DateTimeFormatter[] DATE_FORMATTERS = new DateTimeFormatter[] {
+    private static final DateTimeFormatter[] DATE_FORMATTERS = new DateTimeFormatter[]{
         DateTimeFormatter.ofPattern("dd/MM/yyyy"),
         DateTimeFormatter.ofPattern("d/M/yyyy"),
         DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -31,12 +30,6 @@ public class InputValidator {
         return scanner;
     }
 
-    /**
-     * Reads a non-empty string from the console.
-     *
-     * @param prompt The message to display to the user
-     * @return The non-empty trimmed string
-     */
     public static String readNonEmptyString(String prompt) {
         while (true) {
             try {
@@ -55,12 +48,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads an optional string from console (can be empty).
-     *
-     * @param prompt The message to display to the user
-     * @return Trimmed string, or empty string if nothing entered
-     */
     public static String readString(String prompt) {
         try {
             System.out.print(prompt);
@@ -71,12 +58,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a positive integer (> 0).
-     *
-     * @param prompt The message to display to the user
-     * @return The positive integer entered
-     */
     public static int readPositiveInt(String prompt) {
         while (true) {
             try {
@@ -97,12 +78,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a non-negative integer (>= 0).
-     *
-     * @param prompt The message to display to the user
-     * @return The integer entered (>= 0)
-     */
     public static int readNonNegativeInt(String prompt) {
         while (true) {
             try {
@@ -123,14 +98,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads an integer within a specified range [min, max].
-     *
-     * @param prompt The message to display to the user
-     * @param min Minimum allowed value
-     * @param max Maximum allowed value
-     * @return The integer entered within [min, max]
-     */
     public static int readIntInRange(String prompt, int min, int max) {
         while (true) {
             try {
@@ -151,12 +118,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a positive double value (> 0.0).
-     *
-     * @param prompt The message to display to the user
-     * @return The positive double entered
-     */
     public static double readPositiveDouble(String prompt) {
         while (true) {
             try {
@@ -177,12 +138,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a non-negative double value (>= 0.0).
-     *
-     * @param prompt The message to display to the user
-     * @return The non-negative double entered
-     */
     public static double readNonNegativeDouble(String prompt) {
         while (true) {
             try {
@@ -203,12 +158,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a valid date from console supporting formats: dd/MM/yyyy or yyyy-MM-dd.
-     *
-     * @param prompt The message to display to the user
-     * @return The parsed LocalDate
-     */
     public static LocalDate readValidDate(String prompt) {
         while (true) {
             try {
@@ -234,7 +183,7 @@ public class InputValidator {
                                         return date;
                                     }
                                 }
-                            } catch (Exception ignored) {
+                            } catch (NumberFormatException e) {
                             }
                         }
                     }
@@ -246,13 +195,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads an expiry date that must not be before the manufacturing date.
-     *
-     * @param prompt The message to display to the user
-     * @param manufacturingDate The manufacturing date to compare against
-     * @return The valid expiry date
-     */
     public static LocalDate readExpiryDate(String prompt, LocalDate manufacturingDate) {
         while (true) {
             LocalDate expDate = readValidDate(prompt);
@@ -265,12 +207,6 @@ public class InputValidator {
         }
     }
 
-    /**
-     * Reads a yes/no confirmation from user.
-     *
-     * @param prompt The message to display to the user
-     * @return true if user typed Y/y/yes, false otherwise
-     */
     public static boolean readConfirmation(String prompt) {
         while (true) {
             try {

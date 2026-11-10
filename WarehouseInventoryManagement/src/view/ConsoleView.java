@@ -10,15 +10,8 @@ import model.Product;
 import model.StockTransaction;
 import util.InputValidator;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class ConsoleView {
 
-    // ==========================================
-    // 1. MENUS
-    // ==========================================
     public int showMainMenuAndGetChoice() {
         System.out.println();
         System.out.println("==========================================");
@@ -48,8 +41,8 @@ public class ConsoleView {
         System.out.println("3. Delete product");
         System.out.println("4. Search product");
         System.out.println("5. View all products");
-        System.out.println("6. Import inventory from CSV");
-        System.out.println("7. Export inventory to CSV");
+        System.out.println("6. Save data to TXT files");
+        System.out.println("7. Load data from TXT files");
         System.out.println("0. Back");
         return InputValidator.readIntInRange("Enter your choice: ", 0, 7);
     }
@@ -64,9 +57,6 @@ public class ConsoleView {
         return InputValidator.readIntInRange("Enter your choice: ", 0, 4);
     }
 
-    // ==========================================
-    // 2. INPUT FORMS
-    // ==========================================
     public Product inputNewProductForm() {
         System.out.println("\n--- ADD NEW PRODUCT ---");
         String barcode = InputValidator.readNonEmptyString("Barcode: ");
@@ -82,9 +72,9 @@ public class ConsoleView {
         String batchId = InputValidator.readNonEmptyString("Batch ID: ");
         int quantity = InputValidator.readPositiveInt("Quantity: ");
         double importPrice = InputValidator.readPositiveDouble("Import price: ");
-        LocalDate mfgDate = InputValidator.readValidDate("Manufacturing date (yyyy-MM-dd): ");
-        LocalDate expDate = InputValidator.readExpiryDate("Expiry date (yyyy-MM-dd): ", mfgDate);
-        LocalDate importDate = LocalDate.now(); // current date, not asked from the user
+        LocalDate mfgDate = InputValidator.readValidDate("Manufacturing date: ");
+        LocalDate expDate = InputValidator.readExpiryDate("Expiry date: ", mfgDate);
+        LocalDate importDate = LocalDate.now();
 
         return new Batch(batchId, barcode, quantity, importPrice, mfgDate, expDate, importDate);
     }
@@ -93,9 +83,6 @@ public class ConsoleView {
         return InputValidator.readNonEmptyString("Enter barcode to " + actionName + ": ");
     }
 
-    // ==========================================
-    // 3. TABLES & MESSAGES
-    // ==========================================
     public void printBatchHeader() {
         System.out.printf("%-10s | %9s | %-12s | %-12s%n", "BatchID", "Remaining", "MFG", "EXP");
         System.out.println("---------------------------------------------------");

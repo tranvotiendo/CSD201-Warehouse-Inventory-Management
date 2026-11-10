@@ -5,10 +5,6 @@ import java.util.List;
 import model.StockTransaction;
 import model.TransactionType;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class TransactionLog {
 
     private TransactionNode head;
@@ -53,6 +49,12 @@ public class TransactionLog {
 
     public boolean isEmpty() {
         return head == null && tail == null;
+    }
+
+    public void clear() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
     }
 
     public void recordTransaction(StockTransaction transaction) {

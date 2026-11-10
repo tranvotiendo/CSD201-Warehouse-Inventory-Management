@@ -18,9 +18,6 @@ import java.util.Map;
 import model.Batch;
 import model.Product;
 
-/**
- * Imports and exports plain CSV inventory files, including current batch quantities.
- */
 public final class InventoryFileManager {
 
     private static final String[] HEADER = {
@@ -91,11 +88,6 @@ public final class InventoryFileManager {
         return importedProducts.size();
     }
 
-    /**
-     * Exports all products and their current batches as UTF-8 CSV.
-     *
-     * @return number of products exported
-     */
     public static int exportInventory(Path path, List<Product> products) throws IOException {
         if (path == null || products == null) {
             throw new IllegalArgumentException("File path and product list are required.");

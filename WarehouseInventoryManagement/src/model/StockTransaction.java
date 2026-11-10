@@ -2,19 +2,15 @@ package model;
 
 import java.time.LocalDateTime;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class StockTransaction {
 
-    private String transactionId;   
-    private TransactionType type;    
-    private String barcode;          
-    private String batchId;         
-    private int quantity;            
-    private LocalDateTime timestamp; 
-    private String note;             
+    private String transactionId;
+    private TransactionType type;
+    private String barcode;
+    private String batchId;
+    private int quantity;
+    private LocalDateTime timestamp;
+    private String note;
 
     public StockTransaction() {
     }

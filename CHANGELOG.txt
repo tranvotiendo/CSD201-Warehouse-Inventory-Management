@@ -1,0 +1,127 @@
+================================================================================
+                    PROJECT CHANGELOG - WAREHOUSE MANAGEMENT SYSTEM
+================================================================================
+
+I. TỔNG HỢP THAY ĐỔI THEO TỪNG CLASS / PACKAGE
+
+1. Package util
+--------------------------------------------------------------------------------
+- InputValidator.java:
+  + Sửa lỗi nhập ngày (kể cả 2026-06-12): Đưa định dạng "yyyy-MM-dd" lên ưu tiên
+    số 1 trong danh sách DATE_FORMATTERS, hỗ trợ thêm "dd/MM/yyyy", "d/M/yyyy",
+    "dd-MM-yyyy", "yyyy/MM/dd".
+  + Bắt triệt để cả DateTimeParseException và Exception trong readValidDate(),
+    ngăn chặn hoàn toàn lỗi ngoại lệ chưa xử lý làm dừng chương trình.
+  + Thêm hàm readConfirmation(String prompt) hỗ trợ đọc lựa chọn xác nhận (Y/N).
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+2. Package view
+--------------------------------------------------------------------------------
+- ConsoleView.java:
+  + Loại bỏ tính năng CSV (Import/Export CSV) trong menu Product Management.
+  + Cập nhật 2 chức năng mới:
+    * 6. Save data to TXT files
+    * 7. Load data from TXT files
+  + Căn chỉnh bảng hiển thị sản phẩm thẳng hàng, định dạng cột giá và số lượng chuẩn.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+3. Package file
+--------------------------------------------------------------------------------
+- AbstractFileIO.java:
+  + Đổi cơ chế đọc/ghi sang StandardCharsets.UTF_8 qua InputStreamReader /
+    OutputStreamWriter (không phụ thuộc vào bảng mã mặc định của Windows).
+  + Bổ sung bộ lọc tự động nhận diện và cắt bỏ ký tự UTF-8 BOM (\uFEFF) ở dòng đầu
+    tiên của file để tránh lỗi bị lệch độ dài chuỗi và lỗi tra cứu mã vạch.
+  + Bổ sung hàm getFile() linh hoạt tìm đúng vị trí file text khi chạy trên
+    NetBeans hoặc chạy qua Terminal.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- ProductFile.java:
+  + Cải tiến hàm dataToObject() hỗ trợ xử lý tên sản phẩm chứa dấu phẩy
+    (ví dụ: "Instant coffee, 3 in 1"), đảm bảo trích xuất chính xác mã vạch, giá,
+    đơn vị tính và phân loại.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- WarehouseFileService.java:
+  + Bổ sung cờ theo dõi trạng thái thay đổi dữ liệu: modified, isModified(),
+    markModified(), setModified(boolean).
+  + Trong hàm loadAll(): Tự động làm sạch dữ liệu cũ trong RAM trước khi nạp
+    (gọi clear() trên ProductManager và TransactionLog) để tránh bị duplicate
+    sản phẩm hoặc lô hàng. Tự động reset modified = false.
+  + Trong hàm saveAll(): Ghi dữ liệu đồng bộ ra 3 file: products.txt, batches.txt,
+    transactions.txt. Lưu thành công tự động reset modified = false.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- BatchFile.java, TransactionFile.java, IFileIO.java:
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+4. Package datastructure
+--------------------------------------------------------------------------------
+- ProductBST.java:
+  + Thêm phương thức clear() (gán root = null) giúp giải phóng toàn bộ cây khi
+    cần tải lại dữ liệu mới từ file text.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- TransactionLog.java:
+  + Thêm phương thức clear() (gán head = null, tail = null, size = 0) giúp làm
+    sạch danh sách liên kết giao dịch khi tải lại file.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- BatchQueue.java, BatchNode.java, Node.java, TransactionNode.java:
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+5. Package controller
+--------------------------------------------------------------------------------
+- ProductManager.java:
+  + Bổ sung phương thức clear() gọi productTree.clear().
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- WarehouseManager.java, StatisticsManager.java:
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+6. Package handle
+--------------------------------------------------------------------------------
+- HandleProduct.java:
+  + Loại bỏ mã nguồn CSV cũ, kết nối mục 6 & 7 với fileService.saveAll() và
+    fileService.loadAll().
+  + Gọi fileService.markModified() sau mỗi thao tác thêm, cập nhật, xóa sản phẩm.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- HandleWarehouse.java:
+  + Nhận tham chiếu WarehouseFileService qua constructor/setter.
+  + Gọi fileService.markModified() sau mỗi thao tác: nhập lô mới (Stock In),
+    xuất kho theo FIFO, hoặc loại bỏ lô hết hạn (Remove expired batches).
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+- HandleStatistics.java:
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+7. Package main
+--------------------------------------------------------------------------------
+- Main.java:
+  + Tự động tải dữ liệu: Ngay khi khởi động chương trình, tự động nạp toàn bộ
+    dữ liệu từ các file TXT vào bộ nhớ (fileService.loadAll(productManager, transactionLog)).
+  + Tự động hỏi lưu khi thoát: Khi chọn 0. Exit, kiểm tra nếu có dữ liệu bị sửa đổi
+    (fileService.isModified() == true), hiển thị thông báo:
+    "Data has been modified. Do you want to save changes to TXT files? (Y/N): "
+    Nếu chọn Y: tự động lưu dữ liệu vào 3 file TXT trước khi thoát; nếu chọn N: thoát luôn.
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+8. Package model & constants
+--------------------------------------------------------------------------------
+- Batch.java, Product.java, StockTransaction.java, TransactionType.java, StoreInfo.java:
+  + Đã xóa toàn bộ comment và Javadoc thừa.
+
+--------------------------------------------------------------------------------
+II. DỮ LIỆU MẪU (DATA FILES)
+--------------------------------------------------------------------------------
+- products.txt:
+  + Loại bỏ 3 byte BOM (\xEF\xBB\xBF) ẩn ở đầu file, xử lý triệt để lỗi lệch cột
+    và lỗi thứ tự sắp xếp của sản phẩm White rice 5kg.
+  + Chuẩn hóa định dạng bảng mã UTF-8 chuẩn.
+
+- batches.txt:
+  + Bổ sung sẵn các lô hàng hết hạn (RC-2025-000, ND-2025-000, OJ-2025-000,
+    ML-2026-001, YG-2026-000) phục vụ việc kiểm thử tính năng loại bỏ lô hết hạn
+    và báo cáo thống kê cảnh báo kho.
+================================================================================

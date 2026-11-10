@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Product;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class ProductBST {
 
     private Node root;
@@ -40,7 +36,7 @@ public class ProductBST {
     }
 
     private Node insertSupport(Node current, Product product) {
-        // TODO: Hàm đệ quy hỗ trợ insert
+
         if (current == null) {
             return new Node(product);
         }
@@ -78,7 +74,7 @@ public class ProductBST {
     }
 
     public boolean delete(String barcode) {
-        // TODO: Xóa sản phẩm khỏi BST theo barcode
+
         if(barcode==null || barcode.isEmpty()){
             return false;
         }
@@ -132,5 +128,9 @@ public class ProductBST {
 
     public boolean isEmpty() {
         return root == null;
+    }
+
+    public void clear() {
+        this.root = null;
     }
 }

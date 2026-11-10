@@ -1,9 +1,5 @@
 package constants;
 
-/**
- *
- * @author Group4_SE2023
- */
 public interface StoreInfo {
 
     public final String STORE_NAME = "FPT Warehouse Management System";

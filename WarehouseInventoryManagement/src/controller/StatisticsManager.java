@@ -14,30 +14,16 @@ import model.StockTransaction;
 import model.TransactionType;
 import view.ConsoleView;
 
-/**
- * Controller managing inventory statistics, warnings, sorted views, and transaction reports.
- * 
- * @author Group4_SE2023
- */
 public class StatisticsManager {
 
     private ProductBST productTree;
     private TransactionLog transactionLog;
 
-    /**
-     * Default constructor.
-     */
     public StatisticsManager() {
         this.productTree = new ProductBST();
         this.transactionLog = new TransactionLog();
     }
 
-    /**
-     * Constructor injecting shared productTree and transactionLog instances.
-     *
-     * @param productTree    The shared product tree
-     * @param transactionLog The shared transaction log
-     */
     public StatisticsManager(ProductBST productTree, TransactionLog transactionLog) {
         this.productTree = (productTree != null) ? productTree : new ProductBST();
         this.transactionLog = (transactionLog != null) ? transactionLog : new TransactionLog();
@@ -59,10 +45,6 @@ public class StatisticsManager {
         this.transactionLog = (transactionLog != null) ? transactionLog : new TransactionLog();
     }
 
-    /**
-     * Generates and displays a comprehensive inventory summary report.
-     * Reads directly from productTree to aggregate quantities, values, and batch counts.
-     */
     public void generateInventorySummary() {
         List<Product> products = productTree.inOrderList();
 
@@ -119,10 +101,6 @@ public class StatisticsManager {
         System.out.println("=========================================================================================================\n");
     }
 
-    /**
-     * Checks and alerts for products with low stock levels (<= StoreInfo.LOW_STOCK_THRESHOLD)
-     * and batches that are expired or expiring within 30 days.
-     */
     public void checkExpiredOrLowStockBatches() {
         LocalDate today = LocalDate.now();
         List<Product> products = productTree.inOrderList();
@@ -137,7 +115,6 @@ public class StatisticsManager {
             return;
         }
 
-        // 1. Check low stock products
         System.out.println("[1] LOW STOCK PRODUCTS LIST (Warning Threshold: <= " + StoreInfo.LOW_STOCK_THRESHOLD + "):");
         List<Product> lowStockProducts = new ArrayList<>();
         for (Product product : products) {
@@ -161,7 +138,6 @@ public class StatisticsManager {
 
         System.out.println();
 
-        // 2. Check expired or expiring batches (within 30 days)
         System.out.println("[2] EXPIRED OR EXPIRING SOON BATCHES (<= 30 days):");
         boolean foundBatchWarning = false;
 
@@ -213,10 +189,6 @@ public class StatisticsManager {
         System.out.println("=========================================================================================================\n");
     }
 
-    /**
-     * Extracts all products from productTree and displays them sorted by total quantity.
-     * Uses Bubble Sort algorithm on the extracted list.
-     */
     public void displaySortedProductsByQuantity() {
         List<Product> products = getSortedProductsByQuantity(true);
 
@@ -224,8 +196,6 @@ public class StatisticsManager {
             System.out.println(">> Notice: No products to sort.");
             return;
         }
-
-        
 
         System.out.println("\n======================================================================================");
         System.out.println("                 PRODUCTS SORTED BY QUANTITY DESCENDING (BUBBLE SORT)");
@@ -248,12 +218,6 @@ public class StatisticsManager {
         System.out.println("======================================================================================\n");
     }
 
-    /**
-     * Returns products sorted by quantity.
-     *
-     * @param descending true for highest to lowest stock, false for lowest to highest
-     * @return Sorted list of products
-     */
     public List<Product> getSortedProductsByQuantity(boolean descending) {
         List<Product> list = new ArrayList<>(productTree.inOrderList());
         bubbleSort(list, descending);
@@ -281,17 +245,11 @@ public class StatisticsManager {
         }
     }
 
-    /**
-     * Generates a transaction report for a specific product or all products if barcode is blank.
-     * Calculates total INBOUND, OUTBOUND, and EXPIRED quantities, and prints transaction history.
-     *
-     * @param barcode The product barcode (or null/empty for all transactions)
-     */
     public void generateTransactionReport(String barcode) {
         ConsoleView view = new ConsoleView();
 
         if (barcode == null || barcode.trim().isEmpty() || barcode.trim().equalsIgnoreCase("ALL")) {
-            // Report for all transactions
+
             System.out.println("\n=========================================================================================");
             System.out.println("                        COMPLETE WAREHOUSE TRANSACTION REPORT");
             System.out.println("=========================================================================================");

@@ -2,19 +2,15 @@ package model;
 
 import datastructure.BatchQueue;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class Product {
 
-    private String barcode;        
-    private String name;            
-    private String category;      
-    private String unit;            
-    private double price;           
-    private BatchQueue batchQueue;  
-    
+    private String barcode;
+    private String name;
+    private String category;
+    private String unit;
+    private double price;
+    private BatchQueue batchQueue;
+
     public Product() {
         this.batchQueue = new BatchQueue();
     }

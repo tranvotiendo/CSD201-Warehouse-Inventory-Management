@@ -1,27 +1,21 @@
+
 package handle;
 
 import controller.StatisticsManager;
 import view.ConsoleView;
 
-/**
- *
- * @author mac
- */
 public class HandleStatistics {
-
-    private ConsoleView view = new ConsoleView();
-    private StatisticsManager statisticsManager = new StatisticsManager();
+private ConsoleView view= new ConsoleView();
+private StatisticsManager statisticsManager;
 
     public HandleStatistics() {
+        this(new StatisticsManager());
     }
 
     public HandleStatistics(StatisticsManager statisticsManager) {
         this.statisticsManager = statisticsManager;
     }
 
-    // ==========================================
-    // MENU 3: STATISTICS & REPORTS
-    // ==========================================
     public void handleStatisticsMenu() {
         boolean back = false;
         while (!back) {

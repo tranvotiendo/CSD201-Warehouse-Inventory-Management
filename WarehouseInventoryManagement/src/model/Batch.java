@@ -2,21 +2,17 @@ package model;
 
 import java.time.LocalDate;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class Batch {
 
-    private String batchId;         
-    private String barcode;          
-    private int quantity;            
-    private double importPrice;     
-    private LocalDate manufacturingDate; 
-    private LocalDate expiryDate;       
-    private LocalDate importDate;        
-    
-    public Batch() {    
+    private String batchId;
+    private String barcode;
+    private int quantity;
+    private double importPrice;
+    private LocalDate manufacturingDate;
+    private LocalDate expiryDate;
+    private LocalDate importDate;
+
+    public Batch() {
     }
 
     public Batch(String batchId, String barcode, int quantity, double importPrice, LocalDate manufacturingDate, LocalDate expiryDate, LocalDate importDate) {
@@ -84,8 +80,7 @@ public class Batch {
     public void setImportDate(LocalDate importDate) {
         this.importDate = importDate;
     }
-    
-    // Các hàm nghiệp vụ của riêng lô hàng
+
     public boolean isValidQuantity(int amount) {
         return amount > 0 && amount <= quantity;
     }
